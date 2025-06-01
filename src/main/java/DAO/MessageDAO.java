@@ -35,7 +35,7 @@ public class MessageDAO {
     public void updateMessage(int messageID, String newMessage){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;;";
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, newMessage);
@@ -121,21 +121,25 @@ public class MessageDAO {
     }
 
     // delete message by ID
-    public void deleteMessageByID(int messageID) {
+    public Message deleteMessageByID(int messageID) {
         Connection connection = ConnectionUtil.getConnection();
+        Message messageToDelete = getMessageByID(messageID);
+
+        if (messageToDelete == null){
+            return null;
+        }
         
         try {
             String sql = "DELETE FROM message WHERE message_id = ?";
-
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, messageID);
-
-            int rowsDeleted = preparedStatement.executeUpdate();
-            System.out.println("Rows deleted: " + rowsDeleted);
+            preparedStatement.executeUpdate();
             
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
+
+        return messageToDelete;
 
     }
 }

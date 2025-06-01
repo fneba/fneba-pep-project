@@ -36,7 +36,7 @@ public class MessageService {
         return messageDAO.getAllMessagesByUser(postedBYID);
     }
 
-    public void deleteMessage(int messageID){
-        messageDAO.deleteMessageByID(messageID);
+    public Message deleteMessage(int messageID){
+        return messageDAO.deleteMessageByID(messageID);
     }
 }
